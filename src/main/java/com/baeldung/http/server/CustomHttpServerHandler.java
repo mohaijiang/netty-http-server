@@ -53,7 +53,6 @@ public class CustomHttpServerHandler extends SimpleChannelInboundHandler<Object>
 
             if (msg instanceof LastHttpContent) {
                 LastHttpContent trailer = (LastHttpContent) msg;
-//                responseData.append(RequestUtils.prepareLastResponse(request, trailer));
                 writeResponse(ctx, trailer, responseData);
             }
         }
@@ -61,7 +60,7 @@ public class CustomHttpServerHandler extends SimpleChannelInboundHandler<Object>
 
     private void writeResponse(ChannelHandlerContext ctx) {
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, CONTINUE, Unpooled.EMPTY_BUFFER);
-        ctx.write(response);
+        ctx.write(response,ctx.voidPromise());
     }
 
     private void writeResponse(ChannelHandlerContext ctx, LastHttpContent trailer, StringBuilder responseData) {
